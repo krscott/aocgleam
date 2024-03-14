@@ -8,4 +8,3 @@ pub fn main() {
     _ -> io.println("Usage: aocgleam <day>")
   }
 }
-
