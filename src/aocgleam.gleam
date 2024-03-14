@@ -1,5 +1,11 @@
 import gleam/io
+import argv
+import day01
 
 pub fn main() {
-  io.println("Hello from aocgleam!")
+  case argv.load().arguments {
+    ["1"] -> day01.run()
+    _ -> io.println("Usage: aocgleam <day>")
+  }
 }
+
