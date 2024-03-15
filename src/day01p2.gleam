@@ -3,37 +3,20 @@ import gleam/int
 import gleam/string
 import gleam/list
 import gleam/result.{try}
-import util.{read_lines, split_lines}
+import util.{read_lines}
 
 pub fn run() -> Nil {
   let assert Ok(lines) = read_lines("./inputs/input01.txt")
-  let lines =
-    lines
-    |> list.filter(fn(x) { !string.is_empty(x) })
-  part1(lines)
-  part2(lines)
-}
-
-fn part1(lines: List(String)) -> Nil {
-  let assert Ok(142) =
-    split_lines(
-      "1abc2
-      pqr3stu8vwx
-      a1b2c3d4e5f
-      treb7uchet",
-    )
-    |> get_calibration
-
   let assert Ok(cal) = get_calibration(lines)
   cal
   |> int.to_string
   |> io.println
 }
 
-fn get_calibration(lines: List(String)) {
+pub fn get_calibration(lines: List(String)) -> Result(Int, _) {
   use cals <- try(
     lines
-    |> list.map(get_cal_line)
+    |> list.map(parse_line)
     |> result.all,
   )
 
@@ -41,58 +24,7 @@ fn get_calibration(lines: List(String)) {
   |> Ok
 }
 
-fn get_cal_line(line: String) -> Result(Int, _) {
-  let chars = string.to_graphemes(line)
-
-  use first <- try(list.find_map(chars, int.parse))
-  use last <- try(
-    list.reverse(chars)
-    |> list.find_map(int.parse),
-  )
-
-  first * 10 + last
-  |> Ok
-}
-
-fn part2(lines: List(String)) -> Nil {
-  let assert Ok(281) =
-    split_lines(
-      "two1nine
-      eightwothree
-      abcone2threexyz
-      xtwone3four
-      4nineeightseven2
-      zoneight234
-      7pqrstsixteen",
-    )
-    |> get_calibration2
-
-  let assert Ok(cal) = get_calibration2(lines)
-  cal
-  |> int.to_string
-  |> io.println
-}
-
-fn get_calibration2(lines: List(String)) -> Result(Int, _) {
-  use cals <- try(
-    lines
-    |> list.map(parse_line2)
-    |> result.all,
-  )
-
-  // list.map2(cals, lines, fn(x, y) {
-  //   x
-  //   |> int.to_string
-  //   |> string.append(" ")
-  //   |> string.append(y)
-  //   |> io.println
-  // })
-
-  list.fold(cals, 0, int.add)
-  |> Ok
-}
-
-fn parse_line2(line: String) -> Result(Int, _) {
+fn parse_line(line: String) -> Result(Int, _) {
   let #(_, out) =
     line
     |> string.to_graphemes

@@ -5,6 +5,7 @@ import simplifile.{read}
 
 pub fn read_lines(filename: String) {
   read(filename)
+  |> result.map(string.trim)
   |> result.map(split_lines)
 }
 
