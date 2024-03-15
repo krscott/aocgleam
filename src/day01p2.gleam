@@ -1,30 +1,23 @@
-import gleam/io
 import gleam/int
 import gleam/string
 import gleam/list
 import gleam/result.{try}
-import util.{read_lines}
+import util
 
-pub fn run() -> Nil {
-  let assert Ok(lines) = read_lines("./inputs/input01.txt")
-  let assert Ok(cal) = get_calibration(lines)
-  cal
-  |> int.to_string
-  |> io.println
-}
-
-pub fn get_calibration(lines: List(String)) -> Result(Int, _) {
+pub fn run(lines: List(String)) -> Result(Int, String) {
   use cals <- try(
     lines
     |> list.map(parse_line)
+    |> util.map_error_lineno
     |> result.all,
   )
 
-  list.fold(cals, 0, int.add)
+  cals
+  |> list.fold(0, int.add)
   |> Ok
 }
 
-fn parse_line(line: String) -> Result(Int, _) {
+fn parse_line(line: String) -> Result(Int, String) {
   let #(_, out) =
     line
     |> string.to_graphemes
@@ -37,8 +30,14 @@ fn parse_line(line: String) -> Result(Int, _) {
       }
     })
 
-  use first <- try(list.first(out))
-  use last <- try(list.last(out))
+  use first <- try(
+    list.first(out)
+    |> result.replace_error("could not find first digit"),
+  )
+  use last <- try(
+    list.last(out)
+    |> result.replace_error("could not find last digit"),
+  )
 
   first * 10 + last
   |> Ok

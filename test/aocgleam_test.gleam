@@ -1,6 +1,6 @@
 import gleeunit
 import gleeunit/should
-import util.{read_lines, split_lines}
+import util.{get_day_input, split_lines}
 import day01p1
 import day01p2
 
@@ -15,13 +15,13 @@ pub fn day01p1_example_test() {
     a1b2c3d4e5f
     treb7uchet",
   )
-  |> day01p1.get_calibration
+  |> day01p1.run
   |> should.equal(Ok(142))
 }
 
 pub fn day01p1_test() {
-  let assert Ok(lines) = read_lines("./inputs/input01.txt")
-  day01p1.get_calibration(lines)
+  get_day_input(1)
+  |> day01p1.run
   |> should.equal(Ok(56_042))
 }
 
@@ -35,12 +35,12 @@ pub fn day01p2_example_test() {
     zoneight234
     7pqrstsixteen",
   )
-  |> day01p2.get_calibration
+  |> day01p2.run
   |> should.equal(Ok(281))
 }
 
 pub fn day01p2_test() {
-  let assert Ok(lines) = read_lines("./inputs/input01.txt")
-  day01p2.get_calibration(lines)
+  get_day_input(1)
+  |> day01p2.run
   |> should.equal(Ok(55_358))
 }
