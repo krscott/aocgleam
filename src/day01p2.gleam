@@ -45,59 +45,26 @@ fn parse_line(line: String) -> Result(Int, _) {
 }
 
 fn get_digit(s: String) -> Result(Int, Nil) {
-  Error(Nil)
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "1") || string.ends_with(s, "one") {
-      True -> Ok(1)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "2") || string.ends_with(s, "two") {
-      True -> Ok(2)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "3") || string.ends_with(s, "three") {
-      True -> Ok(3)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "4") || string.ends_with(s, "four") {
-      True -> Ok(4)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "5") || string.ends_with(s, "five") {
-      True -> Ok(5)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "6") || string.ends_with(s, "six") {
-      True -> Ok(6)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "7") || string.ends_with(s, "seven") {
-      True -> Ok(7)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "8") || string.ends_with(s, "eight") {
-      True -> Ok(8)
-      False -> Error(e)
-    }
-  })
-  |> result.try_recover(fn(e) {
-    case string.ends_with(s, "9") || string.ends_with(s, "nine") {
-      True -> Ok(9)
-      False -> Error(e)
+  [
+    #(1, "one"),
+    #(2, "two"),
+    #(3, "three"),
+    #(4, "four"),
+    #(5, "five"),
+    #(6, "six"),
+    #(7, "seven"),
+    #(8, "eight"),
+    #(9, "nine"),
+  ]
+  |> list.fold(Error(Nil), fn(prev, args) {
+    let #(digit, word_str) = args
+    use _ <- result.try_recover(prev)
+    case
+      string.ends_with(s, int.to_string(digit))
+      || string.ends_with(s, word_str)
+    {
+      True -> Ok(digit)
+      False -> Error(Nil)
     }
   })
 }
