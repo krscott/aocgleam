@@ -5,6 +5,19 @@ import gleam/list
 import gleam/result
 import simplifile.{read}
 
+pub fn tap(input: List(a), func: fn(a) -> b) -> List(a) {
+  input
+  |> list.each(func)
+  input
+}
+
+pub fn index_tap(input: List(a), func: fn(a, Int) -> b) -> List(a) {
+  let _ =
+    input
+    |> list.index_map(func)
+  input
+}
+
 pub fn unwrap_assert(result: Result(a, b)) -> a {
   case result {
     Ok(x) -> x
