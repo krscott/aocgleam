@@ -119,3 +119,9 @@ pub fn day03p1_example2_test() {
   |> day03p1.run
   |> should.equal(Ok(925))
 }
+
+pub fn day03p1_test() {
+  get_day_input(3)
+  |> day03p1.run
+  |> should.equal(Ok(556_367))
+}

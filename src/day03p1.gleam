@@ -1,9 +1,7 @@
-import gleam/io
 import gleam/int
 import gleam/string
 import gleam/list
 import gleam/result.{try}
-import util
 
 pub fn run(lines: List(String)) {
   let grid: Grid =
@@ -12,25 +10,9 @@ pub fn run(lines: List(String)) {
 
   grid
   |> list.index_map(fn(row, i) {
-    let line =
-      list.at(lines, i)
-      |> result.replace_error("?")
-      |> result.unwrap_both
-    io.print(line)
-    let out =
-      grid_row_part_numbers(grid, row, i)
-      |> util.tap(fn(x) { io.print(" " <> int.to_string(x)) })
-      |> list.fold(0, int.add)
-    io.println("")
-    out
+    grid_row_part_numbers(grid, row, i)
+    |> list.fold(0, int.add)
   })
-  // |> util.index_tap(fn(x, i) {
-  //   let line =
-  //     list.at(lines, i)
-  //     |> result.replace_error("?")
-  //     |> result.unwrap_both
-  //   io.println(int.to_string(x) <> " " <> line)
-  // })
   |> list.fold(0, int.add)
   |> Ok
 }
@@ -74,30 +56,19 @@ fn grid_row_part_numbers(grid: Grid, row: List(Cell), row_idx: Int) -> List(Int)
 
 fn grid_cell_is_part(grid: Grid, rc: #(Int, Int)) -> Bool {
   let #(r, c) = rc
-  let out =
-    [
-      #(r - 1, c - 1),
-      #(r - 1, c),
-      #(r - 1, c + 1),
-      #(r, c - 1),
-      #(r, c + 1),
-      #(r + 1, c - 1),
-      #(r + 1, c),
-      #(r + 1, c + 1),
-    ]
-    |> list.filter_map(grid_at(grid, _))
-    |> list.find(cell_is_symbol)
-    |> result.is_ok
-  io.print(
-    "("
-    <> int.to_string(r)
-    <> ","
-    <> int.to_string(c)
-    <> ","
-    <> string.inspect(out)
-    <> ")",
-  )
-  out
+  [
+    #(r - 1, c - 1),
+    #(r - 1, c),
+    #(r - 1, c + 1),
+    #(r, c - 1),
+    #(r, c + 1),
+    #(r + 1, c - 1),
+    #(r + 1, c),
+    #(r + 1, c + 1),
+  ]
+  |> list.filter_map(grid_at(grid, _))
+  |> list.find(cell_is_symbol)
+  |> result.is_ok
 }
 
 fn cell_is_symbol(cell: Cell) -> Bool {
