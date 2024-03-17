@@ -2,14 +2,32 @@ import gleam/io
 import gleam/int
 import gleam/string
 import gleam/list
-import gleam/result
+import gleam/result.{try}
 import simplifile.{read}
+
+pub fn trim_prefix(input: String, prefix: String) -> Result(String, Nil) {
+  case string.starts_with(input, prefix) {
+    False -> Error(Nil)
+    True -> Ok(string.drop_left(input, string.length(prefix)))
+  }
+}
+
+pub fn pop_first(input: List(a)) -> Result(#(a, List(a)), Nil) {
+  use first <- try(list.first(input))
+  use rest <- try(list.rest(input))
+  Ok(#(first, rest))
+}
 
 pub fn parse_int(s: String) -> Result(Int, String) {
   case int.parse(s) {
     Ok(i) -> Ok(i)
     Error(_) -> Error("Could not parse int: " <> s)
   }
+}
+
+pub fn tap_inspect(input: a) -> a {
+  io.println(string.inspect(input))
+  input
 }
 
 pub fn tap(input: List(a), func: fn(a) -> b) -> List(a) {
