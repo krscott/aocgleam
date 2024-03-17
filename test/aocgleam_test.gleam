@@ -6,6 +6,7 @@ import day01p2
 import day02p1
 import day02p2
 import day03p1
+import day03p2
 
 pub fn main() {
   gleeunit.main()
@@ -124,4 +125,27 @@ pub fn day03p1_test() {
   get_day_input(3)
   |> day03p1.run
   |> should.equal(Ok(556_367))
+}
+
+pub fn day03p2_example2_test() {
+  split_lines(
+    "467..114..
+    ...*......
+    ..35..633.
+    ......#...
+    617*......
+    .....+.58.
+    ..592.....
+    ......755.
+    ...$.*....
+    .664.598..",
+  )
+  |> day03p2.run
+  |> should.equal(Ok(467_835))
+}
+
+pub fn day03p2_test() {
+  get_day_input(3)
+  |> day03p2.run
+  |> should.equal(Ok(89_471_771))
 }
