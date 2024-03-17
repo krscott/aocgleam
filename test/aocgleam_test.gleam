@@ -8,6 +8,7 @@ import day02p2
 import day03p1
 import day03p2
 import day04p1
+import day04p2
 
 pub fn main() {
   gleeunit.main()
@@ -157,4 +158,22 @@ pub fn day04p1_example_test() {
   day04_example()
   |> day04p1.run
   |> should.equal(Ok(13))
+}
+
+pub fn day04p1_test() {
+  get_day_input(4)
+  |> day04p1.run
+  |> should.equal(Ok(21_568))
+}
+
+pub fn day04p2_example_test() {
+  day04_example()
+  |> day04p2.run
+  |> should.equal(Ok(30))
+}
+
+pub fn day04p2_test() {
+  get_day_input(4)
+  |> day04p2.run
+  |> should.equal(Ok(11_827_296))
 }
