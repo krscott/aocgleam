@@ -7,6 +7,7 @@ import day02p1
 import day02p2
 import day03p1
 import day03p2
+import day04p1
 
 pub fn main() {
   case argv.load().arguments {
@@ -16,6 +17,7 @@ pub fn main() {
     ["2", "2"] -> run(2, day02p2.run)
     ["3", "1"] -> run(3, day03p1.run)
     ["3", "2"] -> run(3, day03p2.run)
+    ["4", "1"] -> run(4, day04p1.run)
     _ -> io.println("Usage: aocgleam <day> <part>")
   }
 }

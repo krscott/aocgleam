@@ -5,6 +5,13 @@ import gleam/list
 import gleam/result
 import simplifile.{read}
 
+pub fn parse_int(s: String) -> Result(Int, String) {
+  case int.parse(s) {
+    Ok(i) -> Ok(i)
+    Error(_) -> Error("Could not parse int: " <> s)
+  }
+}
+
 pub fn tap(input: List(a), func: fn(a) -> b) -> List(a) {
   input
   |> list.each(func)
